@@ -41,7 +41,7 @@ const Home = () => {
       //로그아웃
     } else {
       router.push(
-        "https://auth.bssm.kro.kr/oauth?clientId=c53c85eb&redirectURI=http:/10.129.57.9:5000/callback"
+        "https://auth.bssm.kro.kr/oauth?clientId=c53c85eb&redirectURI=http://10.129.57.9:5000/callback"
       );
     }
   };
