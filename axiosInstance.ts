@@ -21,7 +21,7 @@ const responseErrorInterceptors = async (errorResponse: any) => {
     toast("로그인을 해야합니다.");
     await new Promise((resolve) =>
       setTimeout(() => {
-        location.href = "/login";
+        location.href = "/";
       }, 1000)
     );
   } else if (response?.status === RESPONSE.STATUS.FORBIDDEN) {
