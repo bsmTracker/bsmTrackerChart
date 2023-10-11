@@ -4,6 +4,7 @@ import { ChartTrackSk, ChartTrack } from "../types/chart";
 import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
 import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
 import { BsPersonFill } from "@react-icons/all-files/bs/BsPersonFill";
+import { AiFillPlayCircle } from "@react-icons/all-files/ai/AiFillPlayCircle";
 import {
   useCancelRecommendMutation,
   useMyLikesQuery,
@@ -14,6 +15,7 @@ import SearchTrackModal from "../components/SearchTrackModal";
 import { ModalUI } from "../components/globalStyle";
 import { useUserQuery } from "../query/user";
 import { useRouter } from "next/router";
+import Policy from "./policy";
 
 const Home = () => {
   const toggleLikeMutation = useToggleLikeMutation();
@@ -23,6 +25,7 @@ const Home = () => {
 
   const [chartTrackList, setChartTrackList] = useState<ChartTrackSk[]>([]);
   const [searchTrackModal, setSearchTrackModal] = useState(false);
+  const [policyModal, setPolicyModal] = useState(false);
 
   const router = useRouter();
 
@@ -46,6 +49,26 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    const policyModalCheckDateStr = localStorage.getItem(
+      "policy_modal_check_date"
+    ) as string;
+    if (policyModalCheckDateStr) {
+      let expiredCheckDate = new Date(policyModalCheckDateStr);
+      expiredCheckDate.setHours(expiredCheckDate.getHours() + 24);
+      if (expiredCheckDate < new Date()) {
+        setPolicyModal(true);
+      }
+    } else {
+      setPolicyModal(true);
+    }
+  }, []);
+
+  const policyModalClose = () => {
+    localStorage.setItem("policy_modal_check_date", new Date().toISOString());
+    setPolicyModal(false);
+  };
+
   return (
     <div className="flex flex-col px-[30px] bg-white relative h-full w-full">
       <div className="flex flex-col justify-center items-center p-3">
@@ -54,9 +77,9 @@ const Home = () => {
             className="w-[50px]"
             src="https://avatars.githubusercontent.com/u/136763541?s=200&v=4"
           />
-          <p className="text-[40px] font-bold">bsmTracker</p>
+          <p className="text-[40px] font-bold">BsmPlaylist</p>
         </div>
-        <p className="text-[16px] font-bold">추천곡 차트 서비스</p>
+        <p className="text-[16px] font-bold">추천곡 실시간 차트 서비스</p>
       </div>
       <div className=" flex flex-row justify-center items-center gap-3">
         <p className="text-[15px] font-bold">
@@ -69,8 +92,7 @@ const Home = () => {
           {userQuery?.data?.name ? "로그아웃" : "bsm 계정 로그인"}
         </a>
       </div>
-
-      <div className="mt-[50px] mx-[11px] gap-3 flex flex-col justify-center items-center">
+      <div className="mt-[50px] mx-[11px] pb-[200px] gap-3 flex flex-col justify-center items-center">
         {chartTrackList?.map((chartTrack, idx) => {
           const isLiked = myLikesQuery.data?.find(
             (myLikeTrack) => myLikeTrack.code === chartTrack.code
@@ -88,7 +110,7 @@ const Home = () => {
           );
         })}
       </div>
-      <div className="fixed w-full bottom-0 p-3 left-0  flex flex-row justify-center items-center">
+      <div className="fixed w-full bottom-0 p-3 left-0 flex flex-row justify-center items-center">
         {(myRecommendsQuery.data?.length ?? 0) > 0 ? (
           myRecommendsQuery.data?.map((chartTrack, idx) => {
             return (
@@ -110,6 +132,9 @@ const Home = () => {
           open={searchTrackModal}
           close={() => setSearchTrackModal(false)}
         />
+      </ModalUI>
+      <ModalUI open={policyModal}>
+        <Policy close={policyModalClose} />
       </ModalUI>
     </div>
   );
@@ -167,6 +192,13 @@ const ChartTrackCo = ({
           {chartTrack.name}
         </p>
         <div className="flex flex-row justify-row gap-3 text-[15px]">
+          <AiFillPlayCircle
+            onClick={() => {
+              window.open(`https://youtube.com/watch?v=${chartTrack.code}`);
+            }}
+            cursor="pointer"
+            size={20}
+          />
           <div className="flex flex-row justify-center items-center gap-1">
             {isLiked ? (
               <AiFillLike
