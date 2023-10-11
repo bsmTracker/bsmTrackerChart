@@ -13,7 +13,7 @@ import {
 } from "../query/chart";
 import SearchTrackModal from "../components/SearchTrackModal";
 import { ModalUI } from "../components/globalStyle";
-import { useUserQuery } from "../query/user";
+import { useLogoutMutation, useUserQuery } from "../query/user";
 import { useRouter } from "next/router";
 import Policy from "./policy";
 
@@ -22,6 +22,7 @@ const Home = () => {
   const myRecommendsQuery = useMyRecommendsQuery();
   const myLikesQuery = useMyLikesQuery();
   const userQuery = useUserQuery();
+  const logoutMutation = useLogoutMutation();
 
   const [chartTrackList, setChartTrackList] = useState<ChartTrackSk[]>([]);
   const [searchTrackModal, setSearchTrackModal] = useState(false);
@@ -39,9 +40,10 @@ const Home = () => {
     };
   }, [chartSocket]);
 
-  const loginInOrOutHandler = () => {
+  const loginInOrOutHandler = async () => {
     if (userQuery?.data?.name) {
       //로그아웃
+      await logoutMutation.mutateAsync();
     } else {
       router.push(
         "https://auth.bssm.kro.kr/oauth?clientId=c53c85eb&redirectURI=http://10.129.57.9:5000/callback"
