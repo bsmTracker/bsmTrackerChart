@@ -23,12 +23,15 @@ const Policy = ({ close }: { close: any }) => {
         결론 : 모두에게 도움이 될 수 있는 곡으로 추천해주시면 감사하겠습니다.
       </p>
       <br></br>
-      <p className="text-[10px] font-bold">
-        * 메시지는 확인 후 24시간이 지나면 다시 나타납니다.
-      </p>
-      <button onClick={close} className="bg-black text-white p-[7px]">
-        네 확인했습니다.
-      </button>
+      <div className="flex flex-col justify-center items-end w-full">
+        <p className="text-[10px] font-bold">
+          * 메시지는 확인 후 24시간이 지나면 다시 나타납니다.
+        </p>
+
+        <button onClick={close} className="bg-black text-white p-[7px]">
+          네 확인했습니다.
+        </button>
+      </div>
     </div>
   );
 };

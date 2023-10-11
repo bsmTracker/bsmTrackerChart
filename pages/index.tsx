@@ -72,7 +72,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col px-[30px] bg-white relative h-full w-full">
+    <div className="flex flex-col px-[10px] bg-white relative h-full w-full">
       <div className="flex flex-col justify-center items-center p-3">
         <div className="flex flex-row justfiy-center items-center">
           <img
@@ -149,7 +149,7 @@ const MyRecommendChartTrackCo = ({
 }) => {
   const cancelRecommendMutation = useCancelRecommendMutation();
   return (
-    <div className="flex justify-between items-center gap-3 bg-slate-100 min-w-[200px]">
+    <div className="flex justify-between items-center gap-3 bg-gray-200 opacity-95 min-w-[200px]">
       <div className="flex flex-row justify-center items-center gap-3">
         <img className="w-[100px]" src={chartTrack.image}></img>
         <p className="font-bold text-[16px] line-clamp-2 text-ellipsis overflow-hidden ...">
@@ -184,30 +184,23 @@ const ChartTrackCo = ({
       className="flex flex-row items-center gap-2 bg-slate-100 rounded-lg p-[10px] min-h-[65px] max-h-[80px] max-w-[600px] w-full min-w-[300px]"
       key={chartTrack.id}
     >
-      <p className="text-[14px] font-bold">{idx + 1}</p>
+      <p className="text-[18px] font-bold">{idx + 1}</p>
       <img
-        className="w-[80px] object-cover h-full"
+        className="min-h-[50px] h-[50px] min-w-[80px] object-cover"
         src={chartTrack.image}
       ></img>
       <div className="w-full">
-        <p className=" font-bold text-[15px] line-clamp-2 text-ellipsis overflow-hidden ...">
+        <p className=" font-bold text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] line-clamp-1 text-ellipsis overflow-hidden ...">
           {chartTrack.name}
         </p>
         <div className="flex flex-row justify-row gap-3 text-[15px]">
-          <AiFillPlayCircle
-            onClick={() => {
-              window.open(`https://youtube.com/watch?v=${chartTrack.code}`);
-            }}
-            cursor="pointer"
-            size={20}
-          />
           <div className="flex flex-row justify-center items-center gap-1">
             {isLiked ? (
               <AiFillLike
                 onClick={async () =>
                   await toggleLikeMutation.mutateAsync(chartTrack.code)
                 }
-                cursor={"pointetruncater"}
+                cursor={"pointer"}
                 size={20}
               />
             ) : (
@@ -223,10 +216,17 @@ const ChartTrackCo = ({
           </div>
           <div className="flex flex-row justify-center items-center gap-1">
             <BsPersonFill size={20} />
-            <p>{chartTrack.user?.name}</p>
+            <p className="">{chartTrack.user?.name}</p>
           </div>
         </div>
       </div>
+      <AiFillPlayCircle
+        onClick={() =>
+          window.open(`https://youtube.com/watch?v=${chartTrack.code}`)
+        }
+        cursor="pointer"
+        size={30}
+      />
     </div>
   );
 };
