@@ -5,6 +5,7 @@ import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
 import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
 import { BsPersonFill } from "@react-icons/all-files/bs/BsPersonFill";
 import { AiFillPlayCircle } from "@react-icons/all-files/ai/AiFillPlayCircle";
+import { RiFolderMusicLine } from "@react-icons/all-files/ri/RiFolderMusicLine";
 import {
   useCancelRecommendMutation,
   useMyLikesQuery,
@@ -123,7 +124,13 @@ const Home = () => {
             );
           })
         ) : (
-          <button onClick={() => setSearchTrackModal(true)}>곡 추천하기</button>
+          <button
+            className="bg-black text-white p-3 rounded-lg flex flex-row gap-2"
+            onClick={() => setSearchTrackModal(true)}
+          >
+            <RiFolderMusicLine size={20} />
+            노래 추천하기
+          </button>
         )}
       </div>
       <ModalUI
